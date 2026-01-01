@@ -19,12 +19,13 @@ Cultura is a modern and beautiful web application designed to help users discove
 - **Footer**: The `Footer` component includes quick links, social media icons, and copyright information.
 - **Home Page**: The landing page of the application, featuring a hero section with a search bar and a section for upcoming events.
 - **Events Page**: A page that displays a list of all available events.
+- **Event Details Page**: A page that displays the details of a single event.
 
-## Current Plan: Event Details Page
+## Current Plan: My Tickets and Profile Stubs
 
-- **Create an "Event Details" Page:** Create a new component to display the details of a single event.
-- **Add a Dynamic Route:** Add a new dynamic route to the application to handle the event details page. For example, `/events/:id`.
-- **Update the "Event Card" Component:** Update the "Event Card" component to link to the event details page.
+- **Create "My Tickets" and "Profile" Page Components:** Create new page components for "My Tickets" and "Profile".
+- **Add Routes for the New Pages:** Add new routes to our application to make the "My Tickets" and "Profile" pages accessible.
+- **Update the Header:** Ensure the links in the header for "My Tickets" and "Profile" are working correctly.
 
 ## Project Structure
 
@@ -40,9 +41,13 @@ Cultura is a modern and beautiful web application designed to help users discove
 │   │   │   └── Events.jsx
 │   │   ├── home/
 │   │   │   └── Home.jsx
-│   │   └── layout/
-│   │       ├── Footer.jsx
-│   │       └── Header.jsx
+│   │   ├── layout/
+│   │   │   ├── Footer.jsx
+│   │   │   └── Header.jsx
+│   │   ├── profile/
+│   │   │   └── Profile.jsx
+│   │   └── tickets/
+│   │       └── MyTickets.jsx
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css

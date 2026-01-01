@@ -6,6 +6,8 @@ import './index.css'
 import Home from './components/home/Home.jsx';
 import Events from './components/events/Events.jsx';
 import EventDetails from './components/events/EventDetails.jsx';
+import Profile from './components/profile/Profile.jsx';
+import MyTickets from './components/tickets/MyTickets.jsx';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/events", element: <Events /> },
       { path: "/events/:id", element: <EventDetails /> },
+      { path: "/profile", element: <Profile /> },
+      { path: "/tickets", element: <MyTickets /> },
     ],
   },
 ]);
