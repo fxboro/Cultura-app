@@ -1,6 +1,40 @@
 import { Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import EventCard from "../events/EventCard";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 
 const Home = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [likedEvents, setLikedEvents] = useState({});
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventsCollection = collection(db, "events");
+        const eventSnapshot = await getDocs(eventsCollection);
+        const eventList = eventSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setEvents(eventList);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleToggleLike = (eventId) => {
+    setLikedEvents(prev => ({ ...prev, [eventId]: !prev[eventId] }));
+  };
+
+  const handleShare = () => {
+    // Placeholder for share functionality
+    alert("Share functionality to be implemented!");
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -24,36 +58,24 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Placeholder for Upcoming Events */}
-      <div>
+      {/* Upcoming Events */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 className="text-3xl font-bold mb-6">Upcoming Events</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Placeholder cards */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop" alt="Event" className="w-full h-48 object-cover"/>
-            <div className="p-6">
-              <h3 className="font-bold text-xl mb-2">Indie Music Festival</h3>
-              <p className="text-gray-600 mb-4">Sat, Aug 10, 7:00 PM</p>
-              <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">View Details</button>
-            </div>
+        {loading ? (
+          <p>Loading events...</p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {events.map(event => (
+              <EventCard
+                key={event.id}
+                event={event}
+                isLiked={!!likedEvents[event.id]}
+                onToggleLike={() => handleToggleLike(event.id)}
+                onShare={handleShare}
+              />
+            ))}
           </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop" alt="Event" className="w-full h-48 object-cover"/>
-            <div className="p-6">
-              <h3 className="font-bold text-xl mb-2">Summer Art Fair</h3>
-              <p className="text-gray-600 mb-4">Sun, Aug 11, 10:00 AM</p>
-              <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">View Details</button>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=2070&auto=format&fit=crop" alt="Event" className="w-full h-48 object-cover"/>
-            <div className="p-6">
-              <h3 className="font-bold text-xl mb-2">Rockstar Live</h3>
-              <p className="text-gray-600 mb-4">Mon, Aug 12, 8:00 PM</p>
-              <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">View Details</button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

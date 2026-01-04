@@ -1,24 +1,23 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB-rlINBb8Aw-7qJDLAQzRfsNC9W29QHsU",
-  authDomain: "cultura-994e9.firebaseapp.com",
-  projectId: "cultura-994e9",
-  storageBucket: "cultura-994e9.firebasestorage.app",
-  messagingSenderId: "790763326672",
-  appId: "1:790763326672:web:6476c3a1c866c6ce82a2d5",
-  measurementId: "G-47P6L29TLN"
+  apiKey: "AIzaSyCEwb9cJMmoPkpTU2lNpggjv3KyKYEU26A",
+  authDomain: "cultura-app-8bf1d.firebaseapp.com",
+  projectId: "cultura-app-8bf1d",
+  storageBucket: "cultura-app-8bf1d.firebasestorage.app",
+  messagingSenderId: "706724270676",
+  appId: "1:706724270676:web:8ee154a6567564349b93c1",
+  measurementId: "G-L2LLXLKN84"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize Services
-const auth = getAuth(app);
 const db = getFirestore(app);
+const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// Export for use in other files
-export { app, auth, db, provider, signInWithPopup };
+export { db, auth, provider, signInWithPopup };

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cultura is a modern and beautiful web application designed to help users discover and book tickets for cultural events. The application provides a seamless and intuitive user experience, with a focus on a clean, visually balanced design and mobile responsiveness.
+Cultura is a modern and beautiful web application designed to help users discover and book tickets for cultural events. The application provides a seamless and intuitive user experience, with a focus on a clean, visually balanced design and mobile responsiveness. It is integrated with Firebase for data storage and user authentication.
 
 ## Design & Style
 
@@ -13,19 +13,30 @@ Cultura is a modern and beautiful web application designed to help users discove
 
 ## Features Implemented
 
+- **Firebase Integration**:
+    - **Firestore**: Used as the database for storing and retrieving event data.
+    - **Authentication**: Integrated Firebase Authentication to allow users to sign in with their Google accounts.
 - **Routing**: The application uses `react-router-dom` for client-side routing.
 - **Layout**: A consistent layout is provided by the `App.jsx` component, which includes a `Header` and a `Footer`.
-- **Header**: The `Header` component features the application's name and navigation links to the main sections of the app.
+- **Header**: The `Header` component features the application's name, navigation links, and a dynamic authentication section that shows a "Login with Google" button or the user's profile picture and a "Sign Out" button.
 - **Footer**: The `Footer` component includes quick links, social media icons, and copyright information.
-- **Home Page**: The landing page of the application, featuring a hero section with a search bar and a section for upcoming events.
-- **Events Page**: A page that displays a list of all available events.
-- **Event Details Page**: A page that displays the details of a single event.
+- **Home Page**: The landing page of the application, featuring a hero section and a section for upcoming events.
+- **Events Page**: Displays a list of all available events fetched dynamically from Firestore, with a loading state.
+- **Event Details Page**: Displays the details of a single event fetched dynamically from Firestore, with a loading state.
+- **User Authentication**:
+    - Users can sign in via a Google popup.
+    - The user's authentication state is managed globally using a custom `useAuth` hook.
+- **Protected Routes**: The "My Tickets" and "Profile" pages are protected, meaning they are only accessible to authenticated users.
+- **Profile Page**: Displays the logged-in user's profile information (picture, name, email).
+- **My Tickets Page**: A placeholder page that demonstrates fetching tickets associated with the logged-in user from Firestore, including loading and empty states.
 
-## Current Plan: My Tickets and Profile Stubs
+## Next Steps
 
-- **Create "My Tickets" and "Profile" Page Components:** Create new page components for "My Tickets" and "Profile".
-- **Add Routes for the New Pages:** Add new routes to our application to make the "My Tickets" and "Profile" pages accessible.
-- **Update the Header:** Ensure the links in the header for "My Tickets" and "Profile" are working correctly.
+- **Ticket Booking**: Implement the functionality for users to book tickets for events.
+- **Profile Editing**: Allow users to edit their profile information.
+- **Real-time Updates**: Use Firestore's real-time capabilities to update event information automatically.
+- **UI/UX Enhancements**: Further polish the user interface, add animations, and improve the overall user experience.
+- **Search & Filtering**: Implement advanced search and filtering options for events.
 
 ## Project Structure
 
@@ -34,6 +45,8 @@ Cultura is a modern and beautiful web application designed to help users discove
 ├── public/
 ├── src/
 │   ├── components/
+│   │   ├── auth/
+│   │   │   └── ProtectedRoute.jsx
 │   │   ├── core/
 │   │   ├── events/
 │   │   │   ├── EventCard.jsx
@@ -48,9 +61,16 @@ Cultura is a modern and beautiful web application designed to help users discove
 │   │   │   └── Profile.jsx
 │   │   └── tickets/
 │   │       └── MyTickets.jsx
+│   ├── hooks/
+│   │   └── useAuth.js
+│   ├── lib/
+│   │   └── firebase.js
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
+├── .firebaserc
+├── firebase.json
+├── firestore.rules
 ├── package.json
 ├── tailwind.config.js
 ├── postcss.config.js
