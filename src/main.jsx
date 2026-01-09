@@ -9,6 +9,7 @@ import EventDetails from './components/events/EventDetails.jsx';
 import Profile from './components/profile/Profile.jsx';
 import MyTickets from './components/tickets/MyTickets.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
+import NotFound from './components/core/NotFound.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

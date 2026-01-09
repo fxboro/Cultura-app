@@ -37,11 +37,13 @@ const MyTickets = () => {
       ) : tickets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tickets.map((ticket) => (
-            <div key={ticket.id} className="bg-white rounded-lg shadow-lg p-8">
-              {/* Display ticket details here */}
-              <h2 className="text-2xl font-bold mb-2">{ticket.eventName}</h2>
-              <p className="text-gray-600">{new Date(ticket.eventDate).toLocaleDateString()}</p>
-              {/* Add QR code or other ticket details */}
+            <div key={ticket.id} className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-bold mb-2 text-purple-800">{ticket.eventName}</h2>
+              <p className="text-gray-600 mb-2"><strong>Date:</strong> {ticket.eventDate}</p>
+              <div className="flex justify-between items-center mt-4 border-t pt-4">
+                <span className="text-sm text-gray-500">Booked on: {ticket.purchaseDate ? new Date(ticket.purchaseDate.seconds * 1000).toLocaleDateString() : 'Just now'}</span>
+                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold uppercase">{ticket.status}</span>
+              </div>
             </div>
           ))}
         </div>

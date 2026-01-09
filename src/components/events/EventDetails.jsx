@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { doc, getDoc } from "firebase/firestore";
+import { useParams, useNavigate } from 'react-router-dom';
+import { doc, getDoc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from '../../lib/firebase';
+import { useAuth } from '../../hooks/useAuth';
 
 const EventDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -28,6 +33,33 @@ const EventDetails = () => {
     fetchEvent();
   }, [id]);
 
+  const handleBookTicket = async () => {
+    if (!user) {
+        navigate('/login'); // Assuming you have a login route, or handle auth request
+        return;
+    }
+
+    setBookingLoading(true);
+    setMessage(null);
+
+    try {
+        await addDoc(collection(db, "tickets"), {
+            eventId: event.id,
+            eventName: event.name, // Denormalize for easier display
+            eventDate: event.date, // Denormalize
+            userId: user.uid,
+            purchaseDate: serverTimestamp(),
+            status: 'valid'
+        });
+        setMessage({ type: 'success', text: 'Ticket booked successfully! Check "My Tickets".' });
+    } catch (error) {
+        console.error("Error booking ticket: ", error);
+        setMessage({ type: 'error', text: 'Failed to book ticket. Please try again.' });
+    } finally {
+        setBookingLoading(false);
+    }
+  };
+
   if (loading) {
     return <div className="text-center"><p>Loading event details...</p></div>;
   }
@@ -47,9 +79,22 @@ const EventDetails = () => {
             <p><strong>Location:</strong> {event.venue}</p>
           </div>
           <p className="text-lg mb-6">{event.description}</p>
+          
+          {message && (
+             <div className={`p-4 mb-4 rounded ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                 {message.text}
+             </div>
+          )}
+
           <div className="flex items-center justify-between">
             <p className="text-2xl font-bold text-purple-700">Price: ${event.price}</p>
-            <button className="bg-purple-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-800 transition-colors duration-300">Book Now</button>
+            <button 
+                onClick={handleBookTicket} 
+                disabled={bookingLoading}
+                className={`px-6 py-3 rounded-lg font-bold text-white transition-colors duration-300 ${bookingLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-purple-700 hover:bg-purple-800'}`}
+            >
+                {bookingLoading ? 'Booking...' : 'Book Now'}
+            </button>
           </div>
         </div>
       </div>
