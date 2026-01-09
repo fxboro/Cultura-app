@@ -10,8 +10,7 @@ const firebaseConfig = {
   projectId: "cultura-app-8bf1d",
   storageBucket: "cultura-app-8bf1d.firebasestorage.app",
   messagingSenderId: "706724270676",
-  appId: "1:706724270676:web:8ee154a6567564349b93c1",
-  measurementId: "G-L2LLXLKN84"
+  appId: "1:706724270676:web:8ee154a6567564349b93c1"
 };
 
 // Initialize Firebase
